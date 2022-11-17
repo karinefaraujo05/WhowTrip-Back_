@@ -18,7 +18,7 @@ Comment.belongsTo(User);
 Trip.hasMany(Plan);
 Plan.belongsTo(Trip);
 
-Comment.hasMany(Comment,{as: `SubComment`})
+Comment.hasMany(Comment,{as: 'SubComment'})
 Comment.belongsTo(Comment)
 
 User.hasMany(Trip);
@@ -28,21 +28,21 @@ User.hasMany(Plan);
 Plan.belongsTo(User);
 
 Plan.belongsToMany(User, {
-  through: `UserPlan`,
-  as: `SavedUser`
+  through: 'UserPlan',
+  as: 'SavedUser'
 });
 User.belongsToMany(Plan, {
-  through: `UserPlan`,
-  as: `SavedPlan`
+  through: 'UserPlan',
+  as: 'SavedPlan'
 });
 
 Trip.belongsToMany(User, {
-  through: `UserTrip`,
-  as: `SavedUser`
+  through: 'UserTrip',
+  as: 'SavedUser'
 });
 User.belongsToMany(Trip, {
-  through: `UserTrip`,
-  as: `SavedTrip`
+  through: 'UserTrip',
+  as: 'SavedTrip'
 });
 
 Trip.hasMany(Budget);

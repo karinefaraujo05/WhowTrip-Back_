@@ -2,27 +2,26 @@ const express = require("express");
 const router = express.Router();
 const db = require("../../models");
 
-// find one budget by trip id
+// GET gastos por viagem
 router.get("/trips/:tripId/:userId", async (req, res) => {
   try {
     const budget = await db.Budget.findAll({
-      // INCLUDE OP AND STATEMENT FOR LOGGED IN USER ID
       where: {
         TripId: req.params.tripId,
         UserId: req.params.userId
       },
-      attributes: { exclude: [`createdAt`, `updatedAt`] },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
       include: {
         model: db.BudgetCategory,
-        attributes: { exclude: [`createdAt`, `updatedAt`] },
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
         include: {
           model: db.BudgetItem,
-          attributes: { exclude: [`createdAt`, `updatedAt`] },
+          attributes: { exclude: ['createdAt', 'updatedAt'] },
         }
       }
     });
     if (!budget) {
-      res.status(404).json({ message: `no budget found with this TripId` });
+      res.status(404).json({ message: 'nenhum gasto encontrado com este Id' });
     };
     res.status(200).json(budget)
   } catch (err) {
@@ -31,11 +30,11 @@ router.get("/trips/:tripId/:userId", async (req, res) => {
   }
 })
 
-// find all budgets
+// GET todos os gastos
 router.get("/", async (req, res) => {
   try {
     const budgets = await db.Budget.findAll({
-      attributes: { exclude: [`createdAt`, `updatedAt`] },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
     });
     res.status(200).json(budgets);
   } catch (err) {
@@ -44,23 +43,23 @@ router.get("/", async (req, res) => {
   }
 });
 
-// find one budget by id tag
+// GET gasto por nome de categoria
 router.get("/:id", async (req, res) => {
   try {
     const budget = await db.Budget.findOne({
       where: { id: req.params.id },
-      attributes: { exclude: [`createdAt`, `updatedAt`] },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
       include: {
         model: db.BudgetCategory,
-        attributes: { exclude: [`createdAt`, `updatedAt`] },
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
         include:{
           model: db.BudgetItem,
-          attributes: { exclude: [`createdAt`, `updatedAt`] },
+          attributes: { exclude: ['createdAt', 'updatedAt'] },
         }
       }
     });
     if (!budget) {
-      res.status(404).json({ message: `no budget found with this id` });
+      res.status(404).json({ message: 'nenhum gasto encontrado com este Id' });
     }
     res.status(200).json(budget);
   } catch (err) {
@@ -69,7 +68,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// create a new budget
+// CREATE novo gasto
 router.post("/", async (req, res) => {
   try{
     const newBudget = await db.Budget.create(req.body);
@@ -80,7 +79,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// update a budget 
+// UPDATE um gasto por id
 router.put("/:id", async (req, res) => {
   try {
     db.Budget.update(
@@ -89,14 +88,14 @@ router.put("/:id", async (req, res) => {
       },
       { where: { id: req.params.id } }
     );
-    res.status(200).json({ message: `budget updated` });
+    res.status(200).json({ message: 'gasto atualizado' });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
 });
 
-// delete a budget by id
+// DELETE a budget by id
 router.delete("/:id", async (req, res) => {
   try {
     const delBudget = await db.Budget.destroy({
@@ -104,9 +103,9 @@ router.delete("/:id", async (req, res) => {
     });
     console.log(delBudget);
     if (!delBudget) {
-      res.status(404).json({ message: `no budget found with this id` });
+      res.status(404).json({ message: 'nenhum gasto encontrado com este TripId' });
     }
-    res.status(200).json({ message: "budget deleted" });
+    res.status(200).json({ message: "gasto excluído" });
   } catch (err) {
     res.status(400).json(err);
   }

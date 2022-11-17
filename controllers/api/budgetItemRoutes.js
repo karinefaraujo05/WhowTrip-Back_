@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 const db = require("../../models");
 
-// find all budget items
+// GET de todos os itens orçados 
 router.get("/", async (req, res) => {
   try {
     const items = await db.BudgetItem.findAll({
-      attributes: { exclude: [`createdAt`, `updatedAt`] },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
     });
     res.status(200).json(items);
   } catch (err) {
@@ -15,15 +15,15 @@ router.get("/", async (req, res) => {
   }
 });
 
-// find one budget item by id tag
+// GET de um único gasto por id
 router.get("/:id", async (req, res) => {
   try {
     const item = await db.BudgetItem.findOne({
       where: { id: req.params.id },
-      attributes: { exclude: [`createdAt`, `updatedAt`] },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
     });
     if (!item) {
-      res.status(404).json({ message: `no item found with this id` });
+      res.status(404).json({ message: 'nenhum item encontrado com este id' });
     }
     res.status(200).json(item);
   } catch (err) {
@@ -32,7 +32,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// create a new budget item
+// CREATE de novo gasto
 router.post("/", async (req, res) => {
   try {
     const newItem = await db.BudgetItem.create(req.body);
@@ -43,7 +43,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// update a budget item
+// update de gasto
 router.put("/:id",  async (req, res) => {
   try {
     await db.BudgetItem.update(
@@ -53,14 +53,14 @@ router.put("/:id",  async (req, res) => {
       },
       { where: { id: req.params.id } }
     );
-    res.status(200).json({ message: `item updated` });
+    res.status(200).json({ message: 'item atualizado' });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
 });
 
-// delete a budget item by id
+// DELETE gasto por id
 router.delete("/:id", async (req, res) => {
   try {
     const delItem = await db.BudgetItem.destroy({
@@ -68,9 +68,9 @@ router.delete("/:id", async (req, res) => {
     });
     console.log(delItem);
     if (!delItem) {
-      res.status(404).json({ message: `no item found with this id` });
+      res.status(404).json({ message: 'nenhum item encontrado com este id' });
     }
-    res.status(200).json({ message: "item deleted" });
+    res.status(200).json({ message: "item excluído" });
   } catch (err) {
     res.status(400).json(err);
   }

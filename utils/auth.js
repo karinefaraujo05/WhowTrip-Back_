@@ -6,14 +6,14 @@ const tokenAuth = (req, res, next) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, data) => {
       if (err) {
         console.log(err);
-        return res.status(403).json({ message: `Auth Failed!` });
+        return res.status(403).json({ message: 'Auth Failed!' });
       } else {
         req.user = data;
         return next();
       }
     });
   } else {
-    return res.status(403).json({ message: `Auth Failed!` });
+    return res.status(403).json({ message: 'Auth Failed!' });
   }
 };
 

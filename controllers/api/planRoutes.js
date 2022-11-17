@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../../models");
 
-// find all plans
+// GET geral de planos
 router.get("/", async (req, res) => {
   try {
     const plans = await db.Plan.findAll({
@@ -15,39 +15,39 @@ router.get("/", async (req, res) => {
   }
 });
 
-// find all plans by trip id
+// GET todos os planos por viagem
 router.get('/trips/:tripId', async (req, res) => {
   try {
     const plans = await db.Plan.findAll({
       where: {
         TripId: req.params.tripId,
       },
-      attributes: {exclude: [`createdAt`, `updatedAt`]},
+      attributes: {exclude: ['createdAt', 'updatedAt']},
       include: [
         {
           model: db.Comment,
-          attributes: {exclude: [`updatedAt`]},
+          attributes: {exclude: ['updatedAt']},
           include: [
             {
               model: db.User,
-              attributes: { exclude: [`createdAt`, `updatedAt`, `password`, `email`] }
+              attributes: { exclude: ['createdAt', 'updatedAt', 'password', 'email'] }
             }
           ]
         },
         {
           model: db.User,
-          attributes: {exclude: [`createdAt`, `updatedAt`, `password`, `email`]}
+          attributes: {exclude: ['createdAt', 'updatedAt', 'password', 'email']}
         },
         {
           model: db.User,
-          as: `SavedUser`,
-          attributes: {exclude: [`createdAt`, `updatedAt`, `password`, `email`]}
+          as: 'SavedUser',
+          attributes: {exclude: ['createdAt', 'updatedAt', 'password', 'email']}
         }
       ]
     });
 
     if (!plans) {
-      res.status(404).json({message: 'No plans associated with this trip'});
+      res.status(404).json({message: 'nenhum plano associado a esta viagem'});
     }
     res.status(200).json(plans);
   } catch (err) {
@@ -56,7 +56,7 @@ router.get('/trips/:tripId', async (req, res) => {
   }
 })
 
-// find one plan by id tag
+// GET plano por ID
 router.get("/:id", async (req, res) => {
   try {
     const plan = await db.Plan.findOne({
@@ -65,21 +65,21 @@ router.get("/:id", async (req, res) => {
       include: [
         {
           model: db.Comment,
-          attributes: {exclude: [`createdAt`, `updatedAt`]}
+          attributes: {exclude: ['createdAt', 'updatedAt']}
         },
         {
           model: db.User,
-          attributes: {exclude: [`createdAt`, `updatedAt`, `password`, `email`]}
+          attributes: {exclude: ['createdAt', 'updatedAt', 'password', 'email']}
         },
         {
           model: db.User,
-          as:`SavedUser`,
-          attributes: {exclude: [`createdAt`, `updatedAt`, `password`, `email`]}
+          as:'SavedUser',
+          attributes: {exclude: ['createdAt', 'updatedAt', 'password', 'email']}
         }
       ]
     });
     if(!plan){
-      res.status(404).json({ message: 'no plan found with this id' });
+      res.status(404).json({ message: 'nenhum plano associado a esta viagem' });
     }
     res.status(200).json(plan);
   } catch (err) {
@@ -88,7 +88,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// create a new plan
+// CREATE 
 router.post("/", async (req, res) => {
   try{
     const newPlan = await db.Plan.create(req.body);
@@ -99,7 +99,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// update a plan
+// UPDATE 
 router.put("/:id", async (req,res)=>{
   try{
       db.Plan.update({
@@ -109,7 +109,7 @@ router.put("/:id", async (req,res)=>{
         date: req.body.date
       },
       {where:{id:req.params.id}})
-      res.status(200).json({message: `plan updated`})
+      res.status(200).json({message: 'plano atualizado'})
     
   }catch(err){
     console.log(err)
@@ -117,41 +117,41 @@ router.put("/:id", async (req,res)=>{
   }
 })
 
-// add a saved plan
+// POST adicionar usuário ao plano
 router.post('/savedplans', async (req, res) => {
   try {
       const saveUser = await db.User.findByPk(req.body.UserId);
       await saveUser.addSavedPlan(req.body.PlanId);
-      res.status(200).json({message:`Saved Plan Added`})
+      res.status(200).json({message:'plano criado'})
   } catch (err) {
       console.log(err);
       res.status(500).json(err);
   }
 });
 
-// remove a saved plan
+// DELETE usuário do plano
 router.delete('/savedplans', async (req, res) => {
   try {
     console.log(req.body)
       const saveUser = await db.User.findByPk(req.body.UserId);
       await saveUser.removeSavedPlan(req.body.PlanId);
-      res.status(200).json({message:`Saved Plan Removed`})
+      res.status(200).json({message:'plano deletado'})
   } catch (err) {
       console.log(err);
       res.status(500).json(err);
   }
 });
 
-// delete a plan by id
+// DELETE 
 router.delete("/:id", async (req, res) => {
   try {
     const delPlan = await db.Plan.destroy({
       where: { id: req.params.id }
     });
     if(!delPlan){
-      res.status(404).json({ message: 'no plan found with that id'});
+      res.status(404).json({ message: 'nenhum plano associado a esta viagem'});
     }
-    res.status(200).json({ message: 'plan removed'})
+    res.status(200).json({ message: 'plano deletado'})
   } catch (err) {
     res.status(400).json(err);
   }

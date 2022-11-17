@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 const db = require("../../models");
 
-// find all comments
+// GET todos os comentários
 router.get("/", async (req, res) => {
   try {
     const comments = await db.Comment.findAll({
-      attributes: { exclude: [`createdAt`, `updatedAt`] },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
     });
     res.status(200).json(comments);
   } catch (err) {
@@ -15,11 +15,11 @@ router.get("/", async (req, res) => {
   }
 });
 
-// find all comments assosciated to a trip
+// GET todos os comentários com o mesmo TripId
 router.get("/trips/:tripId", async (req, res) => {
   try {
     const comments = await db.Comment.findAll({
-      attributes: { exclude: [`updatedAt`] },
+      attributes: { exclude: ['updatedAt'] },
       where: {
         TripId: req.params.tripId,
       },
@@ -27,20 +27,20 @@ router.get("/trips/:tripId", async (req, res) => {
         {
           model: db.User,
           attributes: {
-            exclude: [`createdAt`, `updatedAt`, `password`, `email`],
+            exclude: ['createdAt', 'updatedAt', 'password', 'email'],
           },
         },
         {
           model: db.Comment,
-          as: `SubComment`,
+          as: 'SubComment',
           attributes: {
-            exclude: [`updatedAt`],
+            exclude: ['updatedAt'],
           },
           include: [
             {
               model: db.User,
               attributes: {
-                exclude: [`createdAt`, `updatedAt`, `password`, `email`],
+                exclude: ['createdAt', 'updatedAt', 'password', 'email'],
               },
             },
           ],
@@ -54,30 +54,30 @@ router.get("/trips/:tripId", async (req, res) => {
   }
 });
 
-// find one comment by id tag
+// GET comentário por id
 router.get("/:id", async (req, res) => {
   try {
     const comment = await db.Comment.findOne({
       where: { id: req.params.id },
-      attributes: { exclude: [`updatedAt`] },
+      attributes: { exclude: ['updatedAt'] },
       include: [
         {
           model: db.User,
           attributes: {
-            exclude: [`createdAt`, `updatedAt`, `password`, `email`],
+            exclude: ['createdAt', 'updatedAt', 'password', 'email'],
           },
         },
         {
           model: db.Comment,
-          as: `SubComment`,
+          as: 'SubComment',
           attributes: {
-            exclude: [`updatedAt`],
+            exclude: ['updatedAt'],
           },
           include: [
             {
               model: db.User,
               attributes: {
-                exclude: [`createdAt`, `updatedAt`, `password`, `email`],
+                exclude: ['createdAt', 'updatedAt', 'password', 'email'],
               },
             },
           ],
@@ -85,7 +85,7 @@ router.get("/:id", async (req, res) => {
       ],
     });
     if (!comment) {
-      res.status(404).json({ message: `no comment found with this id` });
+      res.status(404).json({ message: 'no comment found with this id' });
     }
     res.status(200).json(comment);
   } catch (err) {
@@ -94,7 +94,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// create a new comment
+// CREATE novo comentário
 router.post("/", async (req, res) => {
   try {
     const newComment = await db.Comment.create(req.body);
@@ -105,7 +105,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// update a comment
+// UPDATE comentário
 router.put("/:id", async (req, res) => {
   try {
     db.Comment.update(
@@ -114,14 +114,14 @@ router.put("/:id", async (req, res) => {
       },
       { where: { id: req.params.id } }
     );
-    res.status(200).json({ message: `user updated` });
+    res.status(200).json({ message: 'atualização de comentário concluída' });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
 });
 
-// delete a comment by id
+// Delete comentário específico
 router.delete("/:id", async (req, res) => {
   try {
     const delComment = await db.Comment.destroy({
@@ -129,9 +129,9 @@ router.delete("/:id", async (req, res) => {
     });
     console.log(delComment);
     if (!delComment) {
-      res.status(404).json({ message: `no comment found with this id` });
+      res.status(404).json({ message: 'nenhum comentário encontrado com esse id' });
     }
-    res.status(200).json({ message: "comment deleted" });
+    res.status(200).json({ message: "comentário excluído" });
   } catch (err) {
     res.status(400).json(err);
   }

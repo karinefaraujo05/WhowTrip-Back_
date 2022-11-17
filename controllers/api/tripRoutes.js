@@ -3,11 +3,11 @@ const sequelize = require("../../config/connection");
 const router = express.Router();
 const db = require("../../models");
 
-// find all trips
+// GET todas as viagens
 router.get("/", async (req, res) => {
   try {
     const trips = await db.Trip.findAll({
-      attributes: { exclude: [`createdAt`, `updatedAt`] },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
     });
     res.status(200).json(trips);
   } catch (err) {
@@ -16,47 +16,47 @@ router.get("/", async (req, res) => {
   }
 });
 
-// find one trip by id value including associated genres and comments
+// GET viagem única e seus requisitos
 router.get("/:id", async (req, res) => {
   try {
     const trip = await db.Trip.findOne({
       where: { id: req.params.id },
-      attributes: { exclude: [`createdAt`, `updatedAt`] },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
       include: [
         {
           model: db.User,
           attributes: {
-            exclude: [`createdAt`, `updatedAt`, `password`, `email`],
+            exclude: ['createdAt', 'updatedAt', 'password', 'email'],
           },
         },
         {
           model: db.Comment,
           attributes: {
-            exclude: [`updatedAt`, `TripId`, `PlanId`, `UserId`, `CommentId`],
+            exclude: ['updatedAt', 'TripId', 'PlanId', 'UserId', 'CommentId'],
           },
           include: [
             {
               model: db.User,
               attributes: {
-                exclude: [`createdAt`, `updatedAt`, `password`, `email`],
+                exclude: ['createdAt', 'updatedAt', 'password', 'email'],
               },
             },
             {
               model: db.Comment,
-              as: `SubComment`,
+              as: 'SubComment',
               attributes: {
                 exclude: [
-                  `updatedAt`,
-                  `TripId`,
-                  `PlanId`,
-                  `UserId`,
-                  `CommentId`,
+                  'updatedAt',
+                  'TripId',
+                  'PlanId',
+                  'UserId',
+                  'CommentId',
                 ],
               },
               include: {
                 model: db.User,
                 attributes: {
-                  exclude: [`createdAt`, `updatedAt`, `password`, `email`],
+                  exclude: ['createdAt', 'updatedAt', 'password', 'email'],
                 },
               },
             },
@@ -65,35 +65,35 @@ router.get("/:id", async (req, res) => {
         {
           model: db.Plan,
           attributes: {
-            exclude: [`createdAt`, `updatedAt`, `TripId`, `UserId`],
+            exclude: ['createdAt', 'updatedAt', 'TripId', 'UserId'],
           },
           include: {
             model: db.Comment,
             attributes: {
-              exclude: [`updatedAt`, `TripId`, `PlanId`, `UserId`, `CommentId`],
+              exclude: ['updatedAt', 'TripId', 'PlanId', 'UserId', 'CommentId'],
             },
             include: [
               {
                 model: db.User,
                 attributes: {
-                  exclude: [`createdAt`, `updatedAt`, `password`, `email`],
+                  exclude: ['createdAt', 'updatedAt', 'password', 'email'],
                 },
               },
               {
                 model: db.Comment,
                 attributes: {
                   exclude: [
-                    `updatedAt`,
-                    `TripId`,
-                    `PlanId`,
-                    `UserId`,
-                    `CommentId`,
+                    'updatedAt',
+                    'TripId',
+                    'PlanId',
+                    'UserId',
+                    'CommentId',
                   ],
                 },
                 include: {
                   model: db.User,
                   attributes: {
-                    exclude: [`createdAt`, `updatedAt`, `password`, `email`],
+                    exclude: ['createdAt', 'updatedAt', 'password', 'email'],
                   },
                 },
               },
@@ -102,33 +102,33 @@ router.get("/:id", async (req, res) => {
         },
         {
           model: db.User,
-          as: `SavedUser`,
+          as: 'SavedUser',
           attributes: {
             exclude: [
-              `createdAt`,
-              `updatedAt`,
-              `password`,
-              `email`,
-              `UserTrip`,
+              'createdAt',
+              'updatedAt',
+              'password',
+              'email',
+              'UserTrip',
             ],
           },
         },
         {
           model: db.Budget,
-          attributes: { exclude: [`createdAt`, `updatedAt`] },
+          attributes: { exclude: ['createdAt', 'updatedAt'] },
           include: [
             {
               model: db.User,
               attributes: {
-                exclude: [`createdAt`, `updatedAt`, `password`, `email`],
+                exclude: ['createdAt', 'updatedAt', 'password', 'email'],
               },
             },
             {
               model: db.BudgetCategory,
-              attributes: { exclude: [`createdAt`, `updatedAt`] },
+              attributes: { exclude: ['createdAt', 'updatedAt'] },
               include: {
                 model: db.BudgetItem,
-                attributes: { exclude: [`createdAt`, `updatedAt`] },
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
               },
             },
           ],
@@ -136,32 +136,32 @@ router.get("/:id", async (req, res) => {
         {
           model: db.Plan,
           attributes: {
-            exclude: [`createdAt`, `updatedAt`]
+            exclude: ['createdAt', 'updatedAt']
           },
           include: [
             {
               model: db.Comment,
-              attributes: { exclude: [`updatedAt`] },
+              attributes: { exclude: ['updatedAt'] },
               include: [{
                 model: db.User,
-                attributes: { exclude: [`createdAt`, `updatedAt`, `password`, `email`] },
+                attributes: { exclude: ['createdAt', 'updatedAt', 'password', 'email'] },
               }]
             },
             {
               model: db.User,
-              attributes: { exclude: [`createdAt`, `updatedAt`, `password`, `email`] },
+              attributes: { exclude: ['createdAt', 'updatedAt', 'password', 'email'] },
             },
             {
               model: db.User,
-              as: `SavedUser`,
-              attributes: { exclude: [`createdAt`, `updatedAt`, `password`, `email`] },
+              as: 'SavedUser',
+              attributes: { exclude: ['createdAt', 'updatedAt', 'password', 'email'] },
             }
           ]
         }
       ],
     });
     if (!trip) {
-      res.status(404).json({ message: `no trip found with this id` });
+      res.status(404).json({ message: 'nenhuma viagem encontrada com este id' });
     }
     res.status(200).json(trip);
   } catch (err) {
@@ -170,7 +170,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// create a new trip
+// CREATE nova viagem
 router.post("/", async (req, res) => {
   try {
     const newTrip = await db.Trip.create(req.body);
@@ -181,7 +181,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// update a trip
+// UPDATE 
 router.put("/:id", async (req, res) => {
   try {
     db.Trip.update(
@@ -193,38 +193,38 @@ router.put("/:id", async (req, res) => {
       },
       { where: { id: req.params.id } }
     );
-    res.status(200).json({ message: `trip updated` });
+    res.status(200).json({ message: 'trip atualizada' });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
 });
 
-// add a saved trip
+// POST adicionar usuário a viagem
 router.post('/savedtrips', async (req, res) => {
   try {
       const saveUser = await db.User.findByPk(req.body.UserId);
       await saveUser.addSavedTrip(req.body.TripId);
-      res.status(200).json({message:`Saved Trip Added`})
+      res.status(200).json({message:'Adicionado'})
   } catch (err) {
       console.log(err);
       res.status(500).json(err);
   }
 });
 
-// remove a saved trip
+// DELETE - remover usuário da viagem
 router.delete('/savedtrips', async (req, res) => {
   try {
       const saveUser = await db.User.findByPk(req.body.UserId);
       await saveUser.removeSavedTrip(req.body.TripId);
-      res.status(200).json({message:`Saved Trip Removed`})
+      res.status(200).json({message:'Removido'})
   } catch (err) {
       console.log(err);
       res.status(500).json(err);
   }
 });
 
-// delete a trip by id
+// DELETE 
 router.delete("/:id", async (req, res) => {
   try {
     const delTrip = await db.Trip.destroy({
@@ -232,9 +232,9 @@ router.delete("/:id", async (req, res) => {
     });
     console.log(delTrip);
     if (!delTrip) {
-      res.status(404).json({ message: `no trip found with this id` });
+      res.status(404).json({ message: 'nenhuma viagem encontrada com este id' });
     }
-    res.status(200).json({ message: "trip deleted" });
+    res.status(200).json({ message: "trip excluída" });
   } catch (err) {
     res.status(404).json(err);
   }
