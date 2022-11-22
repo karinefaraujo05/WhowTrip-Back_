@@ -131,7 +131,7 @@ router.post("/login", (req, res) => {
           user.password
         );
         if (isPasswordCorrect) {
-          res.status(200).json(user); 
+          res.status(200).json({user:user}); 
         } else {
           res.status(403).json({
             message: "incorrect username or password",
