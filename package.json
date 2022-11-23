@@ -1,5 +1,5 @@
 {
-  "name": "travel-planner-backend",
+  "name": "whowtrip-backend",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TheHebi/travel-planner-backend.git"
+    "url": "git+https://github.com/karinefaraujo05/WHOWTRIP_BACK.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TheHebi/travel-planner-backend/issues"
+    "url": "https://github.com/karinefaraujo05/WHOWTRIP_BACK.git"
   },
-  "homepage": "https://github.com/TheHebi/travel-planner-backend#readme",
+  "homepage": "https://github.com/karinefaraujo05/WHOWTRIP_BACK.git",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.26.3",
