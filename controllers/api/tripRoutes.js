@@ -4,6 +4,7 @@ const router = express.Router();
 const db = require("../../models");
 
 // GET todas as viagens
+
 router.get("/", async (req, res) => {
   try {
     const trips = await db.Trip.findAll({
@@ -17,6 +18,7 @@ router.get("/", async (req, res) => {
 });
 
 // GET viagem única e seus requisitos
+
 router.get("/:id", async (req, res) => {
   try {
     const trip = await db.Trip.findOne({
@@ -213,6 +215,7 @@ router.post('/savedtrips', async (req, res) => {
 });
 
 // DELETE - remover usuário da viagem
+
 router.delete('/savedtrips', async (req, res) => {
   try {
       const saveUser = await db.User.findByPk(req.body.UserId);

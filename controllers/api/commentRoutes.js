@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require("../../models");
 
 // GET todos os comentários
+
 router.get("/", async (req, res) => {
   try {
     const comments = await db.Comment.findAll({
@@ -16,6 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 // GET todos os comentários com o mesmo TripId
+
 router.get("/trips/:tripId", async (req, res) => {
   try {
     const comments = await db.Comment.findAll({
@@ -55,6 +57,7 @@ router.get("/trips/:tripId", async (req, res) => {
 });
 
 // GET comentário por id
+
 router.get("/:id", async (req, res) => {
   try {
     const comment = await db.Comment.findOne({
@@ -95,6 +98,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // CREATE novo comentário
+
 router.post("/", async (req, res) => {
   try {
     const newComment = await db.Comment.create(req.body);
@@ -106,6 +110,7 @@ router.post("/", async (req, res) => {
 });
 
 // UPDATE comentário
+
 router.put("/:id", async (req, res) => {
   try {
     db.Comment.update(

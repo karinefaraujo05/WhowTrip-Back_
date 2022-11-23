@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 
 // GET usuários
+
 router.get("/", async (req, res) => {
   try {
     const users = await db.User.findAll({
@@ -18,6 +19,7 @@ router.get("/", async (req, res) => {
 });
 
 // GET usuário por id
+
 router.get("/:id", async (req, res) => {
   try {
     const user = await db.User.findOne({

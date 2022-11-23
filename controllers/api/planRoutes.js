@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require("../../models");
 
 // GET geral de planos
+
 router.get("/", async (req, res) => {
   try {
     const plans = await db.Plan.findAll({
@@ -16,6 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 // GET todos os planos por viagem
+
 router.get('/trips/:tripId', async (req, res) => {
   try {
     const plans = await db.Plan.findAll({
@@ -57,6 +59,7 @@ router.get('/trips/:tripId', async (req, res) => {
 })
 
 // GET plano por ID
+
 router.get("/:id", async (req, res) => {
   try {
     const plan = await db.Plan.findOne({
@@ -89,6 +92,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // CREATE 
+
 router.post("/", async (req, res) => {
   try{
     const newPlan = await db.Plan.create(req.body);
@@ -100,6 +104,7 @@ router.post("/", async (req, res) => {
 });
 
 // UPDATE 
+
 router.put("/:id", async (req,res)=>{
   try{
       db.Plan.update({
@@ -118,6 +123,7 @@ router.put("/:id", async (req,res)=>{
 })
 
 // POST adicionar usuário ao plano
+
 router.post('/savedplans', async (req, res) => {
   try {
       const saveUser = await db.User.findByPk(req.body.UserId);
@@ -130,6 +136,7 @@ router.post('/savedplans', async (req, res) => {
 });
 
 // DELETE usuário do plano
+
 router.delete('/savedplans', async (req, res) => {
   try {
     console.log(req.body)
@@ -143,6 +150,7 @@ router.delete('/savedplans', async (req, res) => {
 });
 
 // DELETE 
+
 router.delete("/:id", async (req, res) => {
   try {
     const delPlan = await db.Plan.destroy({

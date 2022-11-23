@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require("../../models");
 
 // GET gastos por viagem
+
 router.get("/trips/:tripId/:userId", async (req, res) => {
   try {
     const budget = await db.Budget.findAll({
@@ -31,6 +32,7 @@ router.get("/trips/:tripId/:userId", async (req, res) => {
 })
 
 // GET todos os gastos
+
 router.get("/", async (req, res) => {
   try {
     const budgets = await db.Budget.findAll({
@@ -44,6 +46,7 @@ router.get("/", async (req, res) => {
 });
 
 // GET gasto por nome de categoria
+
 router.get("/:id", async (req, res) => {
   try {
     const budget = await db.Budget.findOne({
@@ -69,6 +72,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // CREATE novo gasto
+
 router.post("/", async (req, res) => {
   try{
     const newBudget = await db.Budget.create(req.body);
@@ -80,6 +84,7 @@ router.post("/", async (req, res) => {
 });
 
 // UPDATE um gasto por id
+
 router.put("/:id", async (req, res) => {
   try {
     db.Budget.update(
@@ -96,6 +101,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // DELETE a budget by id
+
 router.delete("/:id", async (req, res) => {
   try {
     const delBudget = await db.Budget.destroy({

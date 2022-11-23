@@ -16,5 +16,4 @@ router.use("/categories",budgetCategoryRoutes);
 router.use("/plans",planRoutes);
 router.use("/comments",commentRoutes);
 
-
 module.exports = router;

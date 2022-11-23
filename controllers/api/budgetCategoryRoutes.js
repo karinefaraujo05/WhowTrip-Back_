@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require("../../models");
 
 // GET de todos os gastos por categoria
+
 router.get("/", async (req, res) => {
   try {
     const categories = await db.BudgetCategory.findAll({
@@ -15,7 +16,8 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET de categoria por id
+// GET de categoria por id 
+
 router.get("/:id", async (req, res) => {
   try {
     const category = await db.BudgetCategory.findOne({
@@ -64,6 +66,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // DELETE a categoria por id
+
 router.delete("/:id", async (req, res) => {
   try {
     const delCategory = await db.BudgetCategory.destroy({

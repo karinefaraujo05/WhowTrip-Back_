@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require("../../models");
 
 // GET de todos os itens orçados 
+
 router.get("/", async (req, res) => {
   try {
     const items = await db.BudgetItem.findAll({
@@ -16,6 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 // GET de um único gasto por id
+
 router.get("/:id", async (req, res) => {
   try {
     const item = await db.BudgetItem.findOne({
