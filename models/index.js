@@ -57,12 +57,4 @@ BudgetCategory.belongsTo(Budget);
 BudgetCategory.hasMany(BudgetItem);
 BudgetItem.belongsTo(BudgetCategory);
 
-module.exports = {
-  User,
-  Trip,
-  Comment,
-  Budget,
-  Plan,
-  BudgetCategory,
-  BudgetItem
-};
+module.exports = { User, Trip, Comment, Budget, Plan, BudgetCategory, BudgetItem };
