@@ -5,7 +5,6 @@ const cors = require('cors');
 const timeout = require('connect-timeout')
 
 // Sets up the Express App
-// =============================================================
 const app = express();
 app.use(timeout('20s'))
 app.use(compression())
@@ -21,8 +20,6 @@ app.use(haltOnTimedout)
 
 // cors
  app.use(cors())
-//app.use(cors({ origin:["https://trips-refocused.herokuapp.com"]}))
-
 
 app.use('/',allRoutes);
 
